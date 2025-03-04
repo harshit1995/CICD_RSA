@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-#jobs
+#
 
 jobs:
   build:
@@ -32,16 +32,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Debug SonarQube Secrets
-      run: echo "SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}"
-  
-
     - name: SonarQube Scan
-      run:
-         docker run --rm \
-         -v $(pwd):/usr/src \
-         sonarsource/sonar-scanner-cli \
-         -Dsonar.projectKey=my-node-app \
-         -Dsonar.sources=. \
-         -Dsonar.host.url=http://20.84.42.142:9000 \
-         -Dsonar.login=squ_0e1edfa229bf5d201acdae1d5ca5a1d9b2ca00e0
+      run: |
+        docker run --rm \
+          -e SONAR_HOST_URL="http://20.84.42.142:9000/" \
+          -e SONAR_LOGIN="squ_0e1edfa229bf5d201acdae1d5ca5a1d9b2ca00e0" \
+          -e SONAR_PROJECT_KEY="nodejs_helloworld" \
+          -v $(pwd):/usr/src sonarsource/sonar-scanner-cli
