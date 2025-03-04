@@ -32,6 +32,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Debug SonarQube Secrets
+      run: echo "SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}"
+  
+
     - name: SonarQube Scan
       run: |
         docker run --rm \
